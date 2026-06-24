@@ -1,0 +1,13 @@
+.container {
+  margin-top: 10px;
+}
+
+.version {
+  font-size: smaller;
+  font-style: italic;
+}
+
+.row-margins {
+  margin-left: 10px;
+  margin-right: 10px;
+}
