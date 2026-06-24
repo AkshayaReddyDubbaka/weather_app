@@ -1,21 +1,21 @@
 const express = require('express')
-const service = require('../services/locations')
-
-const search = (req, res) => {
-  try {
-    const { input, country } = req.query
-    console.log(`[api.locations.search] input: ${input}; country: ${country}`)
-    const results = service.search(input, country)
-    res.json(results)
-  } catch (error) {
-    console.log(`[api.locations.search] ${error}`)
-    res.status(500).send(error.message || 'Internal Server Error')
-  }
-}
+const openWeatherService = require('../services/openWeather')
 
 const router = express.Router()
-router.get('/search', search)
 
-module.exports = {
-  router
-}
+router.get('/search', async (req, res) => {
+  try {
+    const { input, country } = req.query
+    if (!input || !country) {
+      return res.json([])
+    }
+
+    const locations = await openWeatherService.searchLocations(input, country)
+    res.json(locations)
+  } catch (error) {
+    console.error('[api/locations] error', error)
+    res.status(error.status || 500).json({ error: error.message || 'Location search failed' })
+  }
+})
+
+module.exports = router

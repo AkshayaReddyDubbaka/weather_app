@@ -1,0 +1,45 @@
+{
+  "name": "simple-app",
+  "version": "0.0.55",
+  "private": true,
+  "dependencies": {
+    "@chakra-ui/core": "^0.8.0",
+    "@emotion/core": "^10.0.28",
+    "@emotion/styled": "^10.0.27",
+    "axios": "^0.19.2",
+    "dotenv": "^16.0.0",
+    "emotion-theming": "^10.0.27",
+    "express": "^4.18.2",
+    "jasmine-core": "^3.5.0",
+    "jasmine-spec-reporter": "^5.0.2",
+    "karma": "^5.0.9",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-jasmine": "^3.3.1",
+    "loglevel": "^1.6.8",
+    "ramda": "^0.27.0",
+    "react": "^16.13.1",
+    "react-bootstrap-typeahead": "^4.2.3",
+    "react-content-loader": "^5.0.4",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^3.4.1",
+    "sentence-case": "^3.0.3"
+  },
+  "scripts": {
+    "start": "NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
+    "start-server": "node server/index.js",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
+    "test": "NODE_OPTIONS=--openssl-legacy-provider react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "proxy": "http://localhost:3001/"
+}

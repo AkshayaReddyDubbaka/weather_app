@@ -1,25 +1,43 @@
 import axios from 'axios'
 import { formatAxiosError } from '../utils'
 
-class AppError extends Error {}
+const axiosInstance = axios.create({
+  baseURL: '/api'
+})
 
 export const getWeatherInfo = async ids => {
   try {
-    const config = {
+    if (!ids || ids.length === 0) return []
+
+    const response = await axiosInstance.get('/weatherInfo', {
       params: {
         ids: ids.join(',')
       }
-    }
-    const response = await axios.get('/api/weatherInfo', config)
-    const result = response.data
-    if (result.success) {
-      return result.success.results
-    }
-    throw new AppError(result.failure.errorMessage)
+    })
+
+    const results = response.data || []
+    return results.map(openWeatherResultToViewModelResult)
   } catch (error) {
-    if (error instanceof AppError) throw error
-    const baseMessage = 'An error occurred retrieving weather information from the server'
+    const baseMessage = 'An error occurred retrieving weather information'
     const errorMessage = formatAxiosError(error, baseMessage)
     throw new Error(errorMessage)
   }
 }
+
+const openWeatherResultToViewModelResult = openWeatherResult => ({
+  id: openWeatherResult.id,
+  city: openWeatherResult.name,
+  country: openWeatherResult.sys.country,
+  displayName: `${openWeatherResult.name}, ${openWeatherResult.sys.country}`,
+  description: openWeatherResult.weather[0].description,
+  imageUrl: makeImageUrl(openWeatherResult.weather[0].icon),
+  currentTemp: openWeatherResult.main.temp,
+  minTemp: openWeatherResult.main.temp_min,
+  maxTemp: openWeatherResult.main.temp_max,
+  humidity: openWeatherResult.main.humidity,
+  pressure: openWeatherResult.main.pressure,
+  windSpeed: openWeatherResult.wind.speed
+})
+
+const makeImageUrl = icon =>
+  `https://openweathermap.org/img/w/${icon}.png`
